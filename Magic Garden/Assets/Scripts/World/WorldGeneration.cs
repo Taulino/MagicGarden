@@ -10,6 +10,7 @@ public class WorldGeneration : MonoBehaviour
     public Grid grid;
     public Tilemap groundTileMap;
     public Tilemap cropTileMap;
+    public Tilemap buildingTileMap;
 
     public float time;
 
@@ -17,6 +18,7 @@ public class WorldGeneration : MonoBehaviour
 
     public List<Crop> crops = new List<Crop>();
     public List<Bed> beds = new List<Bed>();
+    //public List<Fence> fences = new List<Fence>();
     void Awake()
     {
         worldGen = this;
@@ -47,6 +49,11 @@ public class WorldGeneration : MonoBehaviour
             Debug.Log("Unable to spawn crop: no bed is present");
             return;
         }
+        if(crops.Find(x => x.GridCoords == gridPosition) != null)
+        {
+            Debug.Log("Unable to plant new crop: it already exists on this place");
+            return;
+        }
         cropTileMap.SetTile((Vector3Int)gridPosition, crop.EarlyTile);
         Crop newCrop = new Crop(crop.EarlyTile, crop.LateTile, crop.GrowTime, crop.Level, crop.ResourceType, gridPosition);
         newCrop.StartTime = time;
@@ -60,7 +67,11 @@ public class WorldGeneration : MonoBehaviour
     }
     public void PlaceBed(Vector2Int gridPosition)
     {
-        
+        if(beds.Find(x => x.GridCoordinates == gridPosition) != null)
+        {
+            Debug.Log("Unable to make the bed: the place already contains it");
+            return;
+        }
         groundTileMap.SetTile((Vector3Int)gridPosition, WorldVariables.BedTile);
         beds.Add(new Bed(gridPosition));
     }
@@ -93,5 +104,9 @@ public class WorldGeneration : MonoBehaviour
         Player.player.Resources[(int)crop.ResourceType] += 1;
         crops.Remove(crop);
 
+    }
+    public void PlaceFence(Vector2Int gridPosition)
+    {
+        //if(fences.Find())
     }
 }
