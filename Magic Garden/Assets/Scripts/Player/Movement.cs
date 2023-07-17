@@ -80,11 +80,14 @@ public class Movement : MonoBehaviour
     }
     void Right()
     {
-        animator.Play("RunRight");
+        transform.localScale = new Vector3(10, 10, 0);
+        animator.Play("Run");
     }
 
     void Left()
     {
+        transform.localScale = new Vector3(-10, 10, 0);
         animator.Play("Run");
+        
     }
 }
