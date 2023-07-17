@@ -18,7 +18,7 @@ public class WorldGeneration : MonoBehaviour
 
     public List<Crop> crops = new List<Crop>();
     public List<Bed> beds = new List<Bed>();
-    //public List<Fence> fences = new List<Fence>();
+    public List<Fence> fences = new List<Fence>();
     void Awake()
     {
         worldGen = this;
@@ -107,6 +107,12 @@ public class WorldGeneration : MonoBehaviour
     }
     public void PlaceFence(Vector2Int gridPosition)
     {
-        //if(fences.Find())
+        if(fences.Find(x => x.GridCoordinates == gridPosition) != null)
+        {
+            Debug.Log("Unable to place the fence: the position is taken");
+            return;
+        }
+        fences.Add(new Fence(gridPosition));
+        
     }
 }
