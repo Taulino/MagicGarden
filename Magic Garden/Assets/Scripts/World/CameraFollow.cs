@@ -2,21 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class CameraFollow : MonoBehaviour
 {
-    public float speed = 3;
-    public Transform target;
-    public Vector3 NewTarget;
-
-    void Start()
-    {
-       target.GetComponent<Transform>();
-        NewTarget = target.position;
-        NewTarget.z = 10;
-    }
+    public float Lerp = 0.9f;
+    public GameObject Player;
     void Update()
     {
-        
-        transform.position = Vector3.Lerp(transform.position, NewTarget, Time.deltaTime*speed);
+        Vector3 targetNew = new Vector3(Player.transform.position.x, Player.transform.position.y, transform.position.z);
+        transform.position = Vector3.Lerp(transform.position, targetNew, Lerp);
     }
 }
