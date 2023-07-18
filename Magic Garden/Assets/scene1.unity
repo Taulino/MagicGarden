@@ -220,9 +220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db7e8ad59864e1145935b014032f2d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  yOffset: 0
-  target: {fileID: 282254084}
+  Lerp: 0.9
+  Player: {fileID: 282254080}
 --- !u!1 &282254080 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5702536342789807637, guid: 43d464e6eaae3ae4da678951f275b920, type: 3}
