@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [Header("s")]
+    public int countOfConsumer = 2;
+    
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
