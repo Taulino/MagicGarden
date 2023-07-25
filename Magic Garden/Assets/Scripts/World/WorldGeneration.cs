@@ -37,6 +37,11 @@ public class WorldGeneration : MonoBehaviour
             Vector3Int gridPosition = grid.WorldToCell(currentCamera.ScreenToWorldPoint(Input.mousePosition));
             PlaceBed((Vector2Int)gridPosition);
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            Vector3Int gridPosition = grid.WorldToCell(currentCamera.ScreenToWorldPoint(Input.mousePosition));
+            PlaceFence((Vector2Int)gridPosition);
+        }
 
         time += Time.deltaTime;
 
@@ -67,13 +72,18 @@ public class WorldGeneration : MonoBehaviour
     }
     public void PlaceBed(Vector2Int gridPosition)
     {
-        if(beds.Find(x => x.GridCoordinates == gridPosition) != null)
+        if (beds.Find(x => x.GridCoordinates == gridPosition) != null)
         {
             Debug.Log("Unable to make the bed: the place already contains it");
             return;
         }
-        groundTileMap.SetTile((Vector3Int)gridPosition, WorldVariables.BedTile);
+        if(fences.Find(x => x.GridCoordinates == gridPosition) != null)
+        {
+            Debug.Log("Unable to place a bed: the place is taken by a fence");
+            return;
+        }
         beds.Add(new Bed(gridPosition));
+        Bed.RenderBeds(gridPosition);
     }
     public void PlaceBed(Vector2 worldPosition)
     {
@@ -107,12 +117,18 @@ public class WorldGeneration : MonoBehaviour
     }
     public void PlaceFence(Vector2Int gridPosition)
     {
+
         if(fences.Find(x => x.GridCoordinates == gridPosition) != null)
         {
             Debug.Log("Unable to place the fence: the position is taken");
             return;
         }
+        if(beds.Find(x => x.GridCoordinates == gridPosition) != null)
+        {
+            Debug.Log("Unable to place the fence: there is a bed in that position");
+            return;
+        }
         fences.Add(new Fence(gridPosition));
-        
+        Fence.RenderFences(gridPosition);
     }
 }
