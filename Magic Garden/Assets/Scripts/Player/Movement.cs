@@ -14,13 +14,16 @@ public class Movement : MonoBehaviour
     public Transform transform;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
+
     public enum Direction
     { 
     right,
     left,
+    up,
+    down,
     zero
     }
-
+    public Direction Now = Direction.zero;
 
     void Start()
     {
@@ -34,20 +37,21 @@ public class Movement : MonoBehaviour
     void Update()
     {
         Direction Now = Direction.zero;
-
         Vector3 Result = Vector3.zero;
 
 
         if (Input.GetKey(KeyCode.D)||Input.GetKey(KeyCode.LeftArrow))
         {
-            Result += Vector3.right * speed * Time.deltaTime;
             Now = Direction.right;
+            Result += Vector3.right * speed * Time.deltaTime;
+           
 
         }
         if (Input.GetKey(KeyCode.A))
         {
-            Result += Vector3.left * speed * Time.deltaTime;
             Now = Direction.left;
+            Result += Vector3.left * speed * Time.deltaTime;
+            
         }
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.LeftArrow))
         {
@@ -59,19 +63,22 @@ public class Movement : MonoBehaviour
             Result += Vector3.up * speed * Time.deltaTime;
 
         }
-        transform.position += Result;
-        if (Now == Direction.right)
-        {
-            Left();
-        }
-        else if (Now == Direction.left)
+        if (Result.x > 0)
         {
             Right();
         }
-        else
+        else if(Result.x < 0)
+        { 
+            Left(); 
+        }
+        if(Result.x == 0)
         {
             Idle();
         }
+
+        transform.position += Result;
+        
+
     }
     void Idle()
     {
@@ -80,14 +87,17 @@ public class Movement : MonoBehaviour
     }
     void Right()
     {
-        transform.localScale = new Vector3(10, 10, 0);
+        if (Now == Direction.right) return;
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, 0);
         animator.Play("Run");
+        Now = Direction.right;
     }
 
     void Left()
     {
-        transform.localScale = new Vector3(-10, 10, 0);
+        if (Now == Direction.left) return;
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 0);
         animator.Play("Run");
-        
+        Now = Direction.left;
     }
 }
