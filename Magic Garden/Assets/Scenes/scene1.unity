@@ -472,6 +472,7 @@ MonoBehaviour:
   transform: {fileID: 282254084}
   animator: {fileID: 282254085}
   spriteRenderer: {fileID: 282254088}
+  Now: 4
 --- !u!4 &282254084 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6701051226526730826, guid: 43d464e6eaae3ae4da678951f275b920, type: 3}
@@ -525,6 +526,7 @@ MonoBehaviour:
   - {fileID: 1701432529}
   - {fileID: 337001224}
   slots: []
+  item: {fileID: 0}
 --- !u!1 &337001224
 GameObject:
   m_ObjectHideFlags: 0
