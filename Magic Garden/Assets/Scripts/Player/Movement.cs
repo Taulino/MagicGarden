@@ -14,6 +14,9 @@ public class Movement : MonoBehaviour
     public Transform transform;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
+    public AudioSource audioSource;
+    public AudioClip clipFoot;
+    public bool canPlay = false;
 
     public enum Direction
     { 
@@ -39,25 +42,21 @@ public class Movement : MonoBehaviour
         Direction Now = Direction.zero;
         Vector3 Result = Vector3.zero;
 
-
         if (Input.GetKey(KeyCode.D)||Input.GetKey(KeyCode.LeftArrow))
         {
             Now = Direction.right;
             Result += Vector3.right * speed * Time.deltaTime;
-           
-
         }
+        
         if (Input.GetKey(KeyCode.A))
         {
             Now = Direction.left;
-            Result += Vector3.left * speed * Time.deltaTime;
-            
+            Result += Vector3.left * speed * Time.deltaTime; 
         }
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.LeftArrow))
         {
             Now = Direction.down;
             Result += Vector3.down * speed * Time.deltaTime;
-
         }
         if (Input.GetKey(KeyCode.W))
         {
@@ -65,28 +64,34 @@ public class Movement : MonoBehaviour
             Result += Vector3.up * speed * Time.deltaTime;
 
         }
+       
+
 
 
 
         if (Result.x > 0 && Result.y == 0)
         {
             animator.StopPlayback();
+           
             Right();
             
         }
         else if (Result.x < 0 && Result.y == 0)
         {
             animator.StopPlayback();
+           
             Left();
         }
         if (Result.y < 0 && Result.x == 0)
         {
             animator.StopPlayback();
+            
             Down();
         }
         else if (Result.y > 0 && Result.x == 0)
         {
             animator.StopPlayback();
+           
             UP();
         }
 
@@ -94,13 +99,32 @@ public class Movement : MonoBehaviour
         if (Result.y == 0 && Result.x == 0)
         {
             animator.StopPlayback();
+           
             Idle();
         }
 
         transform.position += Result;
-        
+
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+        {
+            if (audioSource.isPlaying)
+            {
+                return;
+            }
+            else
+            {
+                audioSource.clip = clipFoot;
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            audioSource.Stop();
+        }
+
 
     }
+   
     void Idle()
     {
         
@@ -109,6 +133,7 @@ public class Movement : MonoBehaviour
     }
     void Right()
     {
+       
         
         if (Now == Direction.right) return;
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, 0);
@@ -118,7 +143,7 @@ public class Movement : MonoBehaviour
 
     void Left()
     {
-       
+        
         if (Now == Direction.left) return;
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 0);
         animator.Play("RunLeft");
@@ -126,14 +151,14 @@ public class Movement : MonoBehaviour
     }
     void UP()
     {
-        
+     
         if (Now == Direction.up) return;
         animator.Play("UpAnim");
         Now = Direction.up;
     }
     void Down()
     {
-        
+       
         if (Now == Direction.down) return;
         animator.Play("DownAnim");
         Now = Direction.down;
