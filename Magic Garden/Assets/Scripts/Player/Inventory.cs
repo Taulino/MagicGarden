@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public Player inventory;
+    public ItemData item;
+    public bool[] isFull;
+    public GameObject[] slot;
+    public GameObject Player;
+    public Collider2D collider;
     void Start()
     {
-        inventory = GetComponent<Player>();
+        
     }
-    public void AddItem()
+    public void OnTriggerEnter2D(Collider2D other)
     {
-
+        if (this.gameObject.CompareTag("ItemTag")) 
+        {
+            Debug.Log("fdsf");
+        }
     }
 }
